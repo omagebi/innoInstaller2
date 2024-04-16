@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download and Install</title>
+</head>
+
+<body>
+    <h1>Download and Install Application</h1>
+    <p>Click the button to download and install the application.</p>
+    <button onclick="downloadAndInstall()">Download</button>
+    <script>
+        function downloadAndInstall() {
+            const url = '/download';
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    // Create a temporary link to download the installer
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'innoInstaller.exe'; // Set the filename to match the installer
+                    document.body.appendChild(link);
+
+                    // Once the download is complete, trigger the click event
+                    link.click();
+
+                    // After a short delay, remove the temporary link and run the installer
+                    setTimeout(() => {
+                        document.body.removeChild(link);
+                        runInstaller();
+                    }, 3000); // Adjust the delay as needed
+                })
+                .catch(error => console.error(error));
+        }
+
+        function runInstaller() {
+            const installerPath = 'innoInstaller.exe';
+
+            // Run the installer silently
+            // Here's an example using cmd.exe
+            const command = `cmd.exe /c "${installerPath}" /S /D=C:\\Program Files\\YourApp && echo Installation completed. && exit`;
+            const child_process = require('child_process');
+            child_process.exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    console.error(error);
+                    alert("Installation failed. Please make sure command prompt (cmd.exe) is enabled for script execution.");
+                    return;
+                }
+                alert("Installation completed.");
+                console.log(stdout); // Echoing a message to the console
+            });
+        }
+    </script>
+</body>
+
+</html>

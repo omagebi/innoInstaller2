@@ -1,0 +1,29 @@
+{
+        "configurations": [
+    {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Debug Dev Env",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register",
+                "-r",
+                "tsconfig-paths/register",
+            ],
+            "args": [
+                "${workspaceFolder}/src/index.ts"
+            ],
+            "resolveSourceMapLocations": [
+                "${workspaceFolder}/**",
+                "!**/node_modules/**"
+            ],
+    },            
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}
